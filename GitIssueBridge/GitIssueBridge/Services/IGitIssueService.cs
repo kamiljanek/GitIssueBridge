@@ -24,6 +24,6 @@ public interface IGitIssueService
     /// <summary>
     /// Closes an existing issue in the repository.
     /// </summary>
-    /// <param name="issueId">ID of the issue to close.</param>
-    Task CloseIssue(string issueId);
+    /// <param name="issueNumber">ID of the issue to close.</param>
+    Task CloseIssue(int issueNumber);
 }

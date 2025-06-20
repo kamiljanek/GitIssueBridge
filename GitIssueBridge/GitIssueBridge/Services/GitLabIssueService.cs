@@ -60,13 +60,13 @@ public class GitLabIssueService : IGitIssueService
         response.EnsureSuccessStatusCode();
     }
 
-    public async Task CloseIssue(string issueId)
+    public async Task CloseIssue(int issueNumber)
     {
         var content = new
         {
             state_event = "close"
         };
-        var response = await _httpClient.PutAsync($"/projects/{_options.ProjectId}/issues/{issueId}",
+        var response = await _httpClient.PutAsync($"/projects/{_options.ProjectId}/issues/{issueNumber}",
             new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json"));
 
         response.EnsureSuccessStatusCode();

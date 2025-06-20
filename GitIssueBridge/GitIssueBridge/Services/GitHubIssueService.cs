@@ -60,13 +60,13 @@ public class GitHubIssueService : IGitIssueService
         response.EnsureSuccessStatusCode();
     }
 
-    public async Task CloseIssue(string issueId)
+    public async Task CloseIssue(int issueNumber)
     {
         var content = new
         {
             state = "closed"
         };
-        var response = await _httpClient.PatchAsync($"/repos/{_options.Owner}/{_options.Repo}/issues/{issueId}",
+        var response = await _httpClient.PatchAsync($"/repos/{_options.Owner}/{_options.Repo}/issues/{issueNumber}",
             new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json"));
 
         response.EnsureSuccessStatusCode();
