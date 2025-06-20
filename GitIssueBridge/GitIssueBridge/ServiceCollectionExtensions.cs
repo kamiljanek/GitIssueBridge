@@ -19,35 +19,21 @@ public static class ServiceCollectionExtensions
         var options = new GitIssueManagerOptions();
         configure(options);
 
-        AddGitLab(services, options);
         AddGitHub(services, options);
+        AddGitLab(services, options);
 
         services.AddSingleton<GitIssueServiceFactory>();
 
         return services;
     }
 
-    private static void AddGitLab(IServiceCollection services, GitIssueManagerOptions options)
-    {
-        services.Configure<GitLabOptions>(opts =>
-        {
-            opts.ProjectId = options.GitLabConfig.ProjectId;
-        });
-
-        services.AddHttpClient(nameof(EGitServiceType.GitLab),
-            client =>
-            {
-                client.BaseAddress = new Uri("https://gitlab.com/api/v4");
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", options.GitLabConfig.AccessToken);
-            });
-    }
-    
     private static void AddGitHub(IServiceCollection services, GitIssueManagerOptions options)
     {
         services.Configure<GitHubOptions>(opts =>
         {
             opts.Owner = options.GitHubConfig.Owner;
             opts.Repo = options.GitHubConfig.Repo;
+            opts.AccessToken = options.GitHubConfig.AccessToken;
         });
 
         services.AddHttpClient(nameof(EGitServiceType.GitHub),
@@ -55,6 +41,22 @@ public static class ServiceCollectionExtensions
             {
                 client.BaseAddress = new Uri("https://api.github.com");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", options.GitHubConfig.AccessToken);
+            });
+    }
+    
+    private static void AddGitLab(IServiceCollection services, GitIssueManagerOptions options)
+    {
+        services.Configure<GitLabOptions>(opts =>
+        {
+            opts.ProjectId = options.GitLabConfig.ProjectId;
+            opts.AccessToken = options.GitLabConfig.AccessToken;
+        });
+
+        services.AddHttpClient(nameof(EGitServiceType.GitLab),
+            client =>
+            {
+                client.BaseAddress = new Uri("https://gitlab.com/api/v4");
+                client.DefaultRequestHeaders.Add("PRIVATE-TOKEN", options.GitLabConfig.AccessToken);
             });
     }
 }
