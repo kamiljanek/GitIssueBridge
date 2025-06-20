@@ -1,5 +1,4 @@
 using GitIssueBridge.Options;
-using GitIssueBridge.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GitIssueBridge;
@@ -28,50 +27,6 @@ public static class ServiceCollectionExtensions
         return services;
     }
     
-    /// <summary>
-    /// Adds GitHub issue services to the IServiceCollection.
-    /// </summary>
-    /// <param name="services">The IServiceCollection instance.</param>
-    /// <param name="configure">The action used to configure Git issue manager options.</param>
-    /// <returns>The IServiceCollection instance.</returns>
-    public static IServiceCollection AddGitHubIssueManager(this IServiceCollection services, Action<GitIssueManagerOptions> configure)
-    {
-        var options = new GitIssueManagerOptions();
-        configure(options);
-
-        AddGitHub(services, options);
-
-        services.AddScoped<IGitIssueService>(sp =>
-        {
-            var factory = sp.GetRequiredService<GitIssueServiceFactory>();
-            return factory.Create(EGitServiceType.GitHub);
-        });
-
-        return services;
-    }
-    
-    /// <summary>
-    /// Adds GitLab issue services to the IServiceCollection.
-    /// </summary>
-    /// <param name="services">The IServiceCollection instance.</param>
-    /// <param name="configure">The action used to configure Git issue manager options.</param>
-    /// <returns>The IServiceCollection instance.</returns>
-    public static IServiceCollection AddGitLabIssueManager(this IServiceCollection services, Action<GitIssueManagerOptions> configure)
-    {
-        var options = new GitIssueManagerOptions();
-        configure(options);
-
-        AddGitLab(services, options);
-
-        services.AddScoped<IGitIssueService>(sp =>
-        {
-            var factory = sp.GetRequiredService<GitIssueServiceFactory>();
-            return factory.Create(EGitServiceType.GitLab);
-        });
-
-        return services;
-    }
-
     private static void AddGitHub(IServiceCollection services, GitIssueManagerOptions options)
     {
         services.Configure<GitHubOptions>(opts =>
