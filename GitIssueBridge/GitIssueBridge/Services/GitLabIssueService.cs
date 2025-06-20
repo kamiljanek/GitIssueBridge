@@ -19,7 +19,7 @@ public class GitLabIssueService : IGitIssueService
     /// </summary>
     /// <param name="httpClient">Configured HttpClient instance.</param>
     /// <param name="optionsSnapshot">Options snapshot for GitHub configuration.</param>
-    public GitLabIssueService(HttpClient httpClient, IOptionsSnapshot<GitLabOptions> optionsSnapshot)
+    public GitLabIssueService(HttpClient httpClient, IOptionsMonitor<GitLabOptions> optionsSnapshot)
     {
         _httpClient = httpClient;
         _options = optionsSnapshot.Get(nameof(EGitServiceType.GitHub));

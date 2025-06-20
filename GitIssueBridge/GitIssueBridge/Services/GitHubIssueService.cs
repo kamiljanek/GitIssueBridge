@@ -19,7 +19,7 @@ public class GitHubIssueService : IGitIssueService
     /// </summary>
     /// <param name="httpClient">Configured HttpClient instance.</param>
     /// <param name="optionsSnapshot">Options snapshot for GitHub configuration.</param>
-    public GitHubIssueService(HttpClient httpClient, IOptionsSnapshot<GitHubOptions> optionsSnapshot)
+    public GitHubIssueService(HttpClient httpClient, IOptionsMonitor<GitHubOptions> optionsSnapshot)
     {
         _httpClient = httpClient;
         _options = optionsSnapshot.Get(nameof(EGitServiceType.GitHub));

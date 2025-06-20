@@ -21,8 +21,8 @@ public class GitIssueServiceFactory
     {
         _services = new Dictionary<EGitServiceType, Func<IGitIssueService>>
         {
-            { EGitServiceType.GitHub, () => new GitHubIssueService(httpClientFactory.CreateClient(nameof(EGitServiceType.GitHub)), serviceProvider.GetRequiredService<IOptionsSnapshot<GitHubOptions>>()) },
-            { EGitServiceType.GitLab, () => new GitLabIssueService(httpClientFactory.CreateClient(nameof(EGitServiceType.GitLab)), serviceProvider.GetRequiredService<IOptionsSnapshot<GitLabOptions>>()) }
+            { EGitServiceType.GitHub, () => new GitHubIssueService(httpClientFactory.CreateClient(nameof(EGitServiceType.GitHub)), serviceProvider.GetRequiredService<IOptionsMonitor<GitHubOptions>>()) },
+            { EGitServiceType.GitLab, () => new GitLabIssueService(httpClientFactory.CreateClient(nameof(EGitServiceType.GitLab)), serviceProvider.GetRequiredService<IOptionsMonitor<GitLabOptions>>()) }
         };
     }
 
