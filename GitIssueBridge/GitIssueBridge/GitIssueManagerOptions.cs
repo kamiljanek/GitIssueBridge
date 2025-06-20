@@ -4,8 +4,8 @@ namespace GitIssueBridge;
 
 public class GitIssueManagerOptions
 {
-    public GitLabOptions GitLabConfig { get; private set; }
-    public GitHubOptions GitHubConfig { get; private set; }
+    public GitLabOptions GitLabConfig { get; private set; } = null!;
+    public GitHubOptions GitHubConfig { get; private set; } = null!;
 
     public void AddGitHubConfig(GitHubOptions options)
     {
